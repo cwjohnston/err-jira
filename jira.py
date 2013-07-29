@@ -27,11 +27,14 @@ class Jira(BotPlugin):
         """A callback which responds to mention of JIRA issues"""
         if self.config:
             matches = []
+            regexes = []
             for project in self.config['PROJECTS']:
-                regex = r'(%s\-[0-9]+)' % project
+                regexes.append(r'(%s\-[0-9]+)' % project)
+            for regex in regexes:
                 matches.extend(re.findall(regex, mess.getBody(), flags=re.IGNORECASE))
             if matches:
-                for match in matches:
+                # set() gives us uniques, but does not preserve order.
+                for match in set(matches):
                     issue_id = match
                     logging.debug("[JIRA] matched issue_id: %s" % issue_id)
                     issue_response = self.get_issue(issue_id)
