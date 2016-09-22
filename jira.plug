@@ -4,3 +4,6 @@ Module = jira
 
 [Documentation]
 Description = An Err plugin for generating links to JIRA issues
+
+[Python]
+Version=2+
